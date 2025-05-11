@@ -1,4 +1,4 @@
-package duoc.auth_service;
+package com.duoc.authService;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
