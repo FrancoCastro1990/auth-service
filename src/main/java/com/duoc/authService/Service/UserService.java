@@ -58,4 +58,14 @@ public class UserService implements IUserService {
         return UUID.randomUUID().toString();
     }
 
+    @Override
+    public boolean deleteUser(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            userRepository.delete(user.get());
+            return true;
+        }
+        return false;
+    }
+
 }

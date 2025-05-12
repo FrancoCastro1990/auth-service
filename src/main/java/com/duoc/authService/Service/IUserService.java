@@ -7,4 +7,5 @@ public interface IUserService {
     public User updatePassword(User user);
     public String login(User user);
     public String generatePassword();
+    public boolean deleteUser(Long id);
 }

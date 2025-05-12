@@ -1,0 +1,71 @@
+@startuml Arquitectura de Microservicios - Tienda de Ropa
+!theme plain
+skinparam linetype ortho
+allowmixing
+
+' Definir los componentes principales
+title Arquitectura de Microservicios - Tienda de Ropa
+caption Franco Castro - DuocUC
+
+' Microservicios basados en los controladores existentes y lo que está realmente implementado
+
+' Auth Service - Solo login básico
+package "auth-service" as auth {
+  class "AuthController" as authController {
+    + login()
+    + register()
+  }
+}
+
+' Product Service
+package "product-service" as product {
+  class "ProductController" as productController {
+    + getAllProducts()
+    + getProductById()
+    + createProduct()
+    + updateProduct()
+    + deleteProduct()
+  }
+  
+  database "H2 Database (Products)" as dbProducts
+}
+
+' Order Service
+package "order-service" as order {
+  class "OrderController" as orderController {
+    + createOrder()
+    + getOrderById()
+    + getAllOrders()
+    + updateOrderStatus()
+    + deleteOrder()
+  }
+  
+  database "H2 Database (Orders)" as dbOrders
+}
+
+' Report Service - Sin conexión a base de datos
+package "report-service" as report {
+  class "ReportController" as reportController {
+    + generateSalesReport()
+    + getTopSellingProducts()
+    + getMonthlySales()
+  }
+  
+}
+
+' Conexiones basadas en los controladores que existen realmente
+productController --> dbProducts
+orderController --> dbOrders
+
+' Comunicación entre microservicios que está realmente implementada
+orderController --> productController: Consulta productos
+reportController --> orderController: Obtiene todos los datos de ventas y productos
+
+' legend
+'   |= Componente |= Descripción |
+'   |<#FFCCCC>| Controladores |
+'   |<#CCFFCC>| Bases de datos |
+'   | --> | Acceso a datos |
+' endlegend
+
+@enduml
